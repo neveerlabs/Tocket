@@ -97,6 +97,7 @@ pip install -r requirements.txt
 
 # jalankan
 python3 main.py
+```
 
 Catatan dependencies penting (termasuk opsi interactive browser):
 
@@ -182,7 +183,6 @@ Periksa ukuran file; cek branch target; pastikan token punya write permission.
 
 Kalau ada exception:
 Salin full traceback dan kirim. Log history ada di DB (tabel history).
-
 
 Contoh alur singkat
 
