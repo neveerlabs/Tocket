@@ -170,4 +170,4 @@ Lisensi
 -------
 MIT — bebas dipakai, dimodifikasi, dibagikan. Lihat file LICENSE untuk rincian.
 
-Selamat menggunakan Tocket. Kalau ada bagian yang mau kamu ubah tampilan atau alur UX, bilang saja — aku update cepat.
+Selamat menggunakan Tocket. Selalu utamakan keamanan & kenyamanan anda
