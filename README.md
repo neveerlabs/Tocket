@@ -170,6 +170,17 @@ Semua berdiri sendiri dan predictable.
 
 ---
 
+## 🧩 Tech Stack Overview
+
+```mermaid
+pie title Tocket — Core Technology Usage
+    "Python (Core Logic)" : 60
+    "Rich (Terminal UI)" : 18
+    "Requests (GitHub API)" : 10
+    "Cryptography (Security)" : 8
+    "Prompt Toolkit (Optional UX)" : 4
+```
+
 ## Batasan Teknis
 
 * Upload file >100MB **tidak didukung** (limit GitHub API)
