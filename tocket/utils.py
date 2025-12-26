@@ -1,4 +1,3 @@
-# File: tocket/utils.py
 import os
 import sys
 import base64
