@@ -32,8 +32,6 @@ Demo / Screenshots
 ![Upload File](screenshots/upload_file.png)  
 ![Pengaturan Token](screenshots/pengaturan_token.png)  
 
-*(Tambahkan screenshot asli Anda ke folder /screenshots dan update path di atas untuk tampilan lebih nyata!)*
-
 ---
 
 Table of contents
