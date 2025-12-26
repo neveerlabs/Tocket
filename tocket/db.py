@@ -1,4 +1,3 @@
-# File: tocket/db.py
 import sqlite3
 import json
 import os
@@ -93,7 +92,6 @@ class ConfigDB:
 
     # Token encryption/decryption using AESGCM with key derived from password
     def store_token_encrypted(self, token_plain: str, password: str):
-        # derive key per-token with new salt
         salt = secrets.token_bytes(16)
         iters = int(self.get_kv("pwd_iters") or DEFAULT_KDF_ITERS)
         key = self._derive(password.encode(), salt, iterations=iters)
