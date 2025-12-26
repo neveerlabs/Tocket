@@ -285,6 +285,8 @@ def create_repo_flow(db: ConfigDB, gh: Optional[GitHubClient], username: str, pa
     except Exception as e:
         print("Error:", e)
         traceback.print_exc()
+    finally:
+        input("\nTekan enter untuk kembali ke menu...")
 
 def list_repos_flow(db: ConfigDB, gh: Optional[GitHubClient]):
     """
@@ -389,7 +391,7 @@ def list_repos_flow(db: ConfigDB, gh: Optional[GitHubClient]):
                     return
                    
         if not repos:
-            console.print("[yellow]Tidak ada repositori untuk ditampilkan.[/yellow]")
+            console.print("[yellow]Tidak ada repositori untuk ditampilkan. Coba buat repo baru atau periksa token/username lo.[/yellow]")
             return
 
         table = Table(title="Repositori", box=box.SIMPLE)
@@ -417,6 +419,8 @@ def list_repos_flow(db: ConfigDB, gh: Optional[GitHubClient]):
     except Exception as e:
         console.print(f"[red]Gagal mengambil daftar repositori: {e}[/red]")
         traceback.print_exc()
+    finally:
+        input("\nTekan enter untuk kembali ke menu...")
 
 def delete_repo_flow(db: ConfigDB, gh: Optional[GitHubClient], username: str):
     try:
@@ -436,6 +440,8 @@ def delete_repo_flow(db: ConfigDB, gh: Optional[GitHubClient], username: str):
         print("Repositori berhasil dihapus.")
     except Exception as e:
         print("Gagal menghapus repo:", e)
+    finally:
+        input("\nTekan enter untuk kembali ke menu...")
 
 def setup_repo_flow(db: ConfigDB, gh: Optional[GitHubClient], username: str, password: Optional[str]):
     try:
@@ -485,6 +491,8 @@ def setup_repo_flow(db: ConfigDB, gh: Optional[GitHubClient], username: str, pas
                 print("Pilihan tidak valid.")
     except Exception as e:
         print("Gagal di setup repo:", e)
+    finally:
+        input("\nTekan enter untuk kembali ke menu...")
 
 def upload_file_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -561,6 +569,8 @@ def upload_file_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo:
                     print("Input tidak dikenali.")
     except Exception as e:
         print("Error upload flow:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def delete_file_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -582,6 +592,8 @@ def delete_file_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo:
         print(e)
     except Exception as e:
         print("Gagal menghapus file:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def list_files_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -597,6 +609,8 @@ def list_files_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: 
         console.print(table)
     except Exception as e:
         print("Gagal mengambil file list:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def change_visibility_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -615,6 +629,8 @@ def change_visibility_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str,
         print("Visibilitas berhasil diubah.")
     except Exception as e:
         print("Gagal mengubah visibilitas:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def rename_file_or_folder_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -659,6 +675,8 @@ def rename_file_or_folder_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: 
         print("Rename/move selesai.")
     except Exception as e:
         print("Gagal rename/move:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def change_gitignore_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -687,6 +705,8 @@ def change_gitignore_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, 
         print(".gitignore diupdate.")
     except Exception as e:
         print("Gagal update .gitignore:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def change_license_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -715,6 +735,8 @@ def change_license_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, re
         print("LICENSE diupdate.")
     except Exception as e:
         print("Gagal update LICENSE:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def delete_folder_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, repo: str):
     try:
@@ -739,6 +761,8 @@ def delete_folder_flow(db: ConfigDB, gh: Optional[GitHubClient], owner: str, rep
         print("Folder dan isinya dihapus.")
     except Exception as e:
         print("Gagal menghapus folder:", e)
+    finally:
+        input("\nTekan enter untuk kembali...")
 
 def settings_flow(db: ConfigDB, gh: Optional[GitHubClient], password: Optional[str]):
     try:
@@ -836,6 +860,8 @@ def settings_flow(db: ConfigDB, gh: Optional[GitHubClient], password: Optional[s
                 print("Pilihan tidak valid.")
     except KeyboardInterrupt:
         print("\nDibatalkan.")
+    finally:
+        input("\nTekan enter untuk kembali ke menu...")
 
 def main():
     db = ensure_db()
