@@ -124,8 +124,6 @@ Catatan teknis & batasan
   - Jangan commit atau bagikan file DB.
 - Mode interactive:
   - Jika `prompt_toolkit` terpasang, file browser akan menyediakan scroll & mouse support. Jika tidak, fallback ke navigator berdasarkan angka/directory listing.
-- Masalah teknis:
-  - Fitur `list_repositori` masih belum berjalan seutuhnya, anda bebas untuk memperbaikinya.
 
 Troubleshooting cepat
 ---------------------
