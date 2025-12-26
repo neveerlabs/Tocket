@@ -1,4 +1,4 @@
-# 🚀 Tocket
+# Tocket
 
 **Tocket** adalah *modern, secure, and opinionated CLI* untuk mengelola GitHub langsung dari terminal.
 Dirancang buat developer yang hidupnya di terminal, males buka browser, tapi tetap peduli soal **security**, **speed**, dan **clean workflow**.
@@ -20,21 +20,21 @@ Dirancang buat developer yang hidupnya di terminal, males buka browser, tapi tet
 
 ---
 
-## ✨ Kenapa Tocket?
+## Kenapa Tocket?
 
 GitHub itu powerful, tapi UI web-nya tidak dibuat untuk workflow cepat.
 Tocket lahir dari kebutuhan simpel:
 
 * Kelola repo **tanpa keluar terminal**
-* Token **tidak disimpan polos**
-* UI **tidak norak**, tapi informatif
+* Token **gak disimpan polos**
+* UI **gak norak**, tapi informatif
 * Alur kerja **jelas dan bisa ditebak**
 
 Tocket bukan sekadar wrapper API. Ini tool yang *punya pendapat* soal workflow GitHub di terminal.
 
 ---
 
-## 🧩 Fitur Utama
+## Fitur Utama
 
 ### Repository Management
 
@@ -67,7 +67,7 @@ Tocket bukan sekadar wrapper API. Ini tool yang *punya pendapat* soal workflow G
 
 ---
 
-## 🖼 Screenshots
+## Screenshots
 
 ### Main Menu
 
@@ -91,10 +91,10 @@ Tocket bukan sekadar wrapper API. Ini tool yang *punya pendapat* soal workflow G
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 * Python **3.13+** (recommended)
-* Linux / Windows Terminal
+* Linux / Windows (Termux / Desktop) Terminal
 
 Dependencies utama:
 
@@ -105,9 +105,9 @@ Dependencies utama:
 
 ---
 
-## 📦 Installation (Development)
+## Installation (Development)
 
-> ⚠️ **Penting:** Jalankan dari *project root*, bukan dari dalam folder `tocket/`.
+> **Penting:** Jalankan dari *project root*, bukan dari dalam folder `tocket/`.
 
 ```bash
 python3 -m venv .venv
@@ -120,7 +120,7 @@ python3 main.py
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Saat pertama kali dijalankan:
 
@@ -141,7 +141,7 @@ Saat pertama kali dijalankan:
 
 ---
 
-## 🔐 Token & Password Model
+## Token & Password Model
 
 * Token **tidak pernah** disimpan plaintext
 * Password hanya dipakai untuk *key derivation*, bukan disimpan langsung
@@ -158,7 +158,7 @@ Saat pertama kali dijalankan:
 
 ---
 
-## 🧠 Arsitektur Singkat
+## Arsitektur Singkat
 
 * CLI entrypoint → `main.py`
 * GitHub API abstraction → `github_api.py`
@@ -170,7 +170,7 @@ Semua berdiri sendiri dan predictable.
 
 ---
 
-## ⚠️ Batasan Teknis
+## Batasan Teknis
 
 * Upload file >100MB **tidak didukung** (limit GitHub API)
 * Rename folder dilakukan via recreate + delete
@@ -178,7 +178,7 @@ Semua berdiri sendiri dan predictable.
 
 ---
 
-## 🧯 Troubleshooting
+## Troubleshooting
 
 ### `No module named tocket.main`
 
@@ -186,7 +186,7 @@ Pastikan posisi direktori benar:
 
 ```bash
 # BENAR
-project-root/
+Tocket/
   ├─ tocket/
   └─ main.py
 ```
@@ -203,7 +203,7 @@ project-root/
 
 ---
 
-## 🤝 Kontribusi
+## Kontribusi
 
 PR sangat diterima.
 
@@ -218,7 +218,7 @@ Workflow singkat:
 
 ---
 
-## 📄 License
+## License
 
 MIT License.
 Gunakan, modifikasi, fork, dan kembangkan sesuka hati.
