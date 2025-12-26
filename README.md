@@ -1,205 +1,275 @@
 # Tocket
 
-Tocket — CLI ringan untuk mengelola GitHub via terminal.  
-Desain fokus: cepat, aman (token terenkripsi), dan nyaman dipakai di terminal Linux/Windows.
+> **Tocket** — Fast, secure, and friendly CLI for managing GitHub from your terminal.
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Rich](https://img.shields.io/badge/Powered_by-Rich-FFD43B?logo=python&logoColor=black)](https://github.com/Textualize/rich)
+[![Python](https://img.shields.io/badge/Python-3.13%2B-blue?logo=python\&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)]()
 [![Stars](https://img.shields.io/github/stars/neveerlabs/Tocket?style=social)]()
 
 ---
 
-Keamanan utama
-- Token classic GitHub disimpan terenkripsi (AES‑GCM) dengan kunci yang diturunkan dari password lokal (PBKDF2-HMAC-SHA256).
-- Kalau kamu lupa password lokal, Tocket tidak bisa memulihkan token — opsi reset tersedia (menghapus token dari storage).
-- Jangan menyimpan token di tempat publik. Gunakan fitur label/token saat menambahkan token.
+## Ringkasan singkat
+
+Tocket adalah CLI ringan untuk mengelola repository GitHub langsung dari terminal. Dirancang untuk developer yang suka bekerja cepat tanpa bolak-balik ke browser — dengan fokus pada kecepatan, keamanan token, dan pengalaman terminal yang nyaman.
+
+Fitur utama: operasi repo (create/list/delete), penuh dukungan upload/download file via GitHub Contents API, enkripsi token AES‑GCM di local DB, dan opsi interactive file browser bila `prompt_toolkit` tersedia.
 
 ---
 
-Preview singkat
-- Navigasi file untuk upload (terminal navigator atau interactive file browser bila prompt_toolkit terpasang)
-- Operasi: create repo, list repo, setup repo (upload/delete/list file, change visibility, .gitignore/license), delete repo, pengaturan token/password.
+## Daftar isi
+
+* [Fitur](#fitur)
+* [Screenshot & panduan gambar](#screenshot--panduan-gambar)
+* [Persyaratan & Instalasi](#persyaratan--instalasi)
+* [Quickstart (penggunaan singkat)](#quickstart-penggunaan-singkat)
+* [Konfigurasi & Token Management](#konfigurasi--token-management)
+* [Arsitektur & Keamanan](#arsitektur--keamanan)
+* [Batasan & Catatan Teknis](#batasan--catatan-teknis)
+* [Troubleshooting Cepat](#troubleshooting-cepat)
+* [Kontribusi](#kontribusi)
+* [Changelog singkat](#changelog-singkat)
+* [Lisensi](#lisensi)
 
 ---
 
-Demo / Screenshots
+## Fitur
 
-![Menu Utama](screenshots/menu_utama.png)  
-![List Repositori](screenshots/list_repos.png)  
-![Create Repositori](screenshots/create_repo.png)  
-![Upload File](screenshots/upload_file.png)  
-![Pengaturan Token](screenshots/pengaturan_token.png)  
-
----
-
-Table of contents
-- Overview
-- Fitur
-- Tech Stack & Framework
-- Persyaratan & instalasi
-- Cara pakai dasar
-- Pengaturan token & password
-- Catatan teknis & batasan
-- Troubleshooting cepat
-- Kontribusi & lisensi
+* Login dengan GitHub classic token (validasi scopes otomatis).
+* Token disimpan terenkripsi (AES‑GCM) di SQLite lokal (`~/.tocket/tocket.db`).
+* Create / List / Delete repository.
+* Setup repository: upload file (commit ke branch target), delete file, list files, rename (create+delete), recursive delete folder.
+* Ubah `.gitignore` / `LICENSE` via template GitHub.
+* Ubah visibilitas repo (public/private) bila permission terpenuhi.
+* Riwayat aksi (history) disimpan lokal untuk auditing dan troubleshooting.
+* UI terminal yang user-friendly (Rich) dan optional interactive file browser (prompt_toolkit).
+* Validasi otomatis untuk ukuran file (GitHub Contents API limit ~100MB).
 
 ---
 
-Overview
----------
-Tocket dibuat untuk developer yang suka mengelola repos GitHub langsung dari terminal tanpa harus berpindah ke browser.  
-Tujuan utamanya: workflow yang sederhana (CLI), penyimpanan token aman, dan dukungan operasi file via GitHub Contents API.
+## Screenshot & panduan gambar
 
-Fitur utama
------------
-- Login dengan token classic GitHub (validasi scopes)
-- Simpan token terenkripsi di SQLite lokal (~/.tocket/tocket.db)
-- Create / List / Delete repository
-- Setup repository:
-  - Upload file (komit langsung ke branch target)
-  - Hapus file
-  - List files (git tree)
-  - Rename file/folder (create + delete)
-  - Hapus folder rekursif (secure)
-  - Ubah .gitignore / LICENSE via template GitHub
-  - Ubah visibilitas repository (public/private)
-- Riwayat aksi (history) disimpan lokal
-- User-friendly terminal UI (ASCII header + 2x3 menu)
-- Interactive file browser (opsional, butuh prompt_toolkit) — support keyboard + mouse scroll
+Letakkan screenshot di folder `screenshots/` pada repo.
 
-Tech Stack & Framework
-----------------------
-| Komponen          | Library / Tool                  | Kegunaan                          |
-|-------------------|---------------------------------|-----------------------------------|
-| UI & Styling      | [Rich](https://github.com/Textualize/rich) | Table cantik, color, ASCII art, menu interaktif |
-| HTTP API          | Requests                        | Interact dengan GitHub REST API   |
-| Keamanan Token    | Cryptography                    | Enkripsi AES-GCM + PBKDF2 untuk token GitHub |
-| Storage Lokal     | SQLite                          | Simpan token terenkripsi, history, password |
-| Optional Prompt   | Prompt Toolkit                  | File browser interaktif           |
+**Rekomendasi file & ukuran**
 
-Persyaratan & instalasi
------------------------
-- Python 3.13.5 (direkomendasikan)
-- Sistem: Linux / Windows (terminal)
+* `screenshots/menu_utama.png` — 1280×720 (landscape), PNG/JPEG, caption: "Menu Utama".
+* `screenshots/list_repos.png` — 1280×720, caption: "List Repository".
+* `screenshots/create_repo.png` — 1280×720, caption: "Create Repository".
+* `screenshots/upload_file.png` — 1280×720, caption: "Upload File".
+* `screenshots/settings_token.png` — 1280×720, caption: "Pengaturan Token".
 
-Install (dev)
+**Aturan penamaan & alt text**
+
+* Gunakan nama yang konsisten seperti `screenshots/<slug>.<ext>`.
+* Beri alt text pada markdown: `![Menu Utama](screenshots/menu_utama.png "Menu Utama — Tocket")`.
+* Prefer PNG untuk UI screenshots; gunakan JPEG untuk foto besar.
+
+**Contoh Markdown memasukkan gambar**
+
+```markdown
+![Menu Utama](screenshots/menu_utama.png "Menu Utama — Tocket")
+```
+
+---
+
+## Persyaratan & instalasi
+
+**Dianjurkan:** Python 3.13.5 (atau 3.13+).
+
+Sistem: Linux / Windows (terminal). WSL direkomendasikan untuk pengguna Windows.
+
+**Install (development)**
+
 ```bash
 # buat virtualenv
 python3 -m venv .venv
-source .venv/bin/activate   # Linux/macOS
-# .venv\Scripts\activate     # Windows (PowerShell)
+source .venv/bin/activate    # Linux/macOS
+# .venv\Scripts\Activate    # Windows (PowerShell)
 
 pip install -r requirements.txt
 
-# jalankan
+# jalankan dari root project (parent folder yang berisi folder tocket/)
 python3 main.py
 ```
 
-Catatan dependencies penting (termasuk opsi interactive browser):
+**Dependencies penting**
 
-rich — UI terminal (panel, tabel)
-requests — HTTP GitHub API
-cryptography — enkripsi token
-prompt_toolkit — (opsional, untuk file browser interaktif; included di requirements)
+* `rich` — UI & styling terminal
+* `requests` — HTTP client
+* `cryptography` — enkripsi AES‑GCM + PBKDF2
+* `prompt_toolkit` — (opsional) interactive file browser
 
-Updated requirements (lihat file requirements.txt di repo).
-Cara pakai dasar
+Lihat `requirements.txt` untuk versi spesifik.
 
-Jalankan dari parent folder project (penting — jangan cd tocket lalu python3 main.py).
-Karena Python mencari package dari current directory; jalankan dari folder yang berisi folder Tocket.
+---
 
-Pertama kali dijalankan:
-Jika belum ada password lokal, kamu bisa lanjut tanpa password.
-Kamu akan diminta memasukkan token classic GitHub (opsional). Jika dimasukkan, token divalidasi.
-Disarankan membuat password lokal untuk mengenkripsi token agar tersimpan aman.
+## Quickstart (penggunaan singkat)
 
-Menu utama (2x3):
-[1] Create Repositori
-[2] List Repositori
-[3] Setup Repositori
-[4] Delete Repositori
+**Catatan:** jalankan dari parent folder project (bukan dari dalam `tocket/`).
+
+1. Jalankan aplikasi
+
+```bash
+python3 main.py
+```
+
+2. Menu utama (2x3):
+
+```
+[1] Create Repository
+[2] List Repository
+[3] Setup Repository
+[4] Delete Repository
 [5] Pengaturan
 [6] Keluar
+```
 
-Setup → Upload file:
-Pilih file via navigator (keyboard atau interactive browser bila tersedia).
-Masukkan target repo (format: https://github.com/{owner}/{repo}/ atau owner/repo).
-Tocket akan mendeteksi default branch (repo metadata) atau fallback ke main/master.
-File >100MB akan ditolak (GitHub Contents API limit).
+3. Setup → Upload file
 
+* Pilih file via navigator (keyboard) atau interactive browser bila tersedia.
+* Masukkan target repo (format: `owner/repo` atau `https://github.com/owner/repo`).
+* Tocket mendeteksi default branch atau fallback ke `main`/`master`.
+* File >100MB akan ditolak (GitHub Contents API limit).
 
-Pengaturan token & password
+---
 
-Menambah token:
-Masukkan token ketika diminta atau lewat menu Pengaturan → Ubah token classic.
-Saat menyimpan, berikan label (nama) token — berguna untuk identifikasi.
-Tocket tidak bisa membaca nama token dari GitHub (API tidak sediakan), jadi label disimpan lokal.
+## Konfigurasi & Token Management
 
-Ganti password:
-Password disimpan hanya sebagai verifier (PBKDF2). Jika ganti password, token akan didekripsi dan dienkripsi ulang menggunakan password baru.
+**Lokasi DB:** `~/.tocket/tocket.db` (SQLite)
 
-Reset / lupa password:
-Jika lupa password, opsi yang tersedia: hapus password & token dari DB (tidak ada recovery).
+**Menambah token**
 
+* Masuk ke `Pengaturan` → `Ubah token classic` → masukkan token.
+* Saat menyimpan, tambahkan label (nama) token untuk identifikasi.
+* Token akan dienkripsi menggunakan kunci yang diturunkan dari password lokal.
 
-Catatan teknis & batasan
+**Password lokal**
 
-Default branch:
-Tocket mencoba baca default_branch dari metadata repo. Jika tidak tersedia, fallback ke main → master, lalu minta input dari user.
+* Password hanya digunakan untuk menurunkan kunci (PBKDF2) dan untuk memverifikasi.
+* Jika lupa password: opsi reset tersedia yang akan menghapus token dari DB (tidak ada recovery).
 
-File size:
-Upload via GitHub Contents API — file >100MB tidak didukung.
+**Ganti password**
 
-Otentikasi & scopes:
-Untuk operasi repo/private, token harus punya scope repo.
-Untuk delete repo/modify visibility, token harus memiliki izin sesuai (owner/collaborator/organization perms).
+* Sistem akan mendekripsi token dan mengenkripsinya ulang menggunakan password baru.
 
-Penyimpanan lokal:
-DB: ~/.tocket/tocket.db
-Jangan commit atau bagikan file DB.
+**Praktik terbaik**
 
-Mode interactive:
-Jika prompt_toolkit terpasang, file browser akan menyediakan scroll & mouse support. Jika tidak, fallback ke navigator berdasarkan angka/directory listing.
+* Jangan menyimpan token di repo, paste, atau tempat publik.
+* Gunakan token dengan scope minimal yang diperlukan (mis. `repo` untuk operasi repository penuh).
 
+---
 
-Troubleshooting cepat
+## Arsitektur & Keamanan
 
-Error "No module named tocket.main" or script failing if run from inside tocket/:
-Pastikan working directory adalah parent dari folder tocket.
-Jalankan python3 main.py dari project root.
+**Enkripsi token**
 
-List Repositori kosong:
-Pastikan token valid dan punya scope repo. Tes di REPL:Pythonfrom tocket.github_api import GitHubClient
+* AES‑GCM digunakan untuk enkripsi token (Cryptography.io).
+* Kunci enkripsi diturunkan dari password lokal menggunakan PBKDF2‑HMAC‑SHA256 (salt unik per instalasi).
+* Verifier disimpan untuk validasi password tanpa menyimpan password plaintext.
+
+**Penyimpanan**
+
+* Semua data operasional disimpan di SQLite lokal (`~/.tocket/tocket.db`).
+* Riwayat (history) menyimpan metadata aksi, bukan token dalam bentuk plaintext.
+
+**Ketidakmampuan recovery**
+
+* Jika password hilang, token tidak bisa dipulihkan. Reset = hapus token dari DB.
+
+---
+
+## Batasan & catatan teknis
+
+* GitHub Contents API tidak mendukung upload file >100MB.
+* Perubahan besar pada repo (rename repo, transfer ownership) tidak sepenuhnya otomatis di-handle.
+* Akses yang diperlukan tergantung pada operasi (mis. `repo` scope untuk private repos, permission owner/collab untuk delete/visibility change).
+* Default branch detection: baca `default_branch` dari metadata; fallback `main` → `master`.
+
+---
+
+## Troubleshooting cepat
+
+**Error: No module named tocket.main**
+
+* Jalankan dari project root (parent folder proyek), bukan dari dalam `tocket/`.
+
+**List repository kosong**
+
+* Pastikan token valid dan punya scope `repo`.
+* Tes di REPL:
+
+```python
+from tocket.github_api import GitHubClient
 g = GitHubClient("PASTE_TOKEN")
 print(g.validate_token())
 print(len(g.list_repos()))
+```
 
-Upload gagal:
-Periksa ukuran file; cek branch target; pastikan token punya write permission.
+**Upload gagal**
 
-Kalau ada exception:
-Salin full traceback dan kirim. Log history ada di DB (tabel history).
+* Pastikan ukuran file < 100MB.
+* Pastikan token punya write permission.
+* Periksa target branch dan path.
 
-Contoh alur singkat
+**Dapatkan error atau exception**
 
-Simpan token:
+* Salin full traceback. Riwayat log disimpan di DB (`history` table).
 
-Bashpython3 main.py
+---
+
+## Contoh alur singkat
+
+**Simpan token**
+
+```bash
+python3 main.py
 # Pilih menu Pengaturan -> Ubah token classic -> isi token -> simpan (buat password saat diminta)
+```
 
-Buat repo & upload file:
+**Buat repo & upload file**
 
-text[1] Create Repositori -> isi nama
-[3] Setup Repositori -> pilih repo -> Upload file -> pilih file -> masukkan path repo (owner/repo)
-Kontribusi
-Saya terbuka untuk perbaikan dan fitur baru. Kalau mau submit PR:
+1. Create Repository → isi nama → selesai
+2. Setup Repository → pilih repo → Upload File → pilih file → masukkan path repo (`owner/repo`)
 
-Fork repo → buat branch fitur → buat PR ke main.
-Tetap jaga keamanan token dan jangan masukkan data sensitif di PR.
-Apabila ada saran tambahan/perbaikan dari anda, silahkan beri tahu saya, karena penting bagi saya untuk mengetahuinya.
+---
 
-Lisensi
-MIT — bebas dipakai, dimodifikasi, dibagikan. Lihat file LICENSE untuk rincian.
-Terima kasih telah menggunakan Tocket! Semoga tool ini mempermudah workflow GitHub Anda sehari-hari. Happy coding dan tetap semangat berkarya!
+## Kontribusi
+
+Terima kasih jika ingin kontribusi! Jalur singkat:
+
+1. Fork repo
+2. Buat branch fitur `feat/<singkat>-description` atau `fix/<issue>`
+3. Sertakan unit test bila memungkinkan
+4. Submit PR ke `main` dengan deskripsi jelas dan alasan perubahan
+
+**Catatan contributor**
+
+* Jangan commit file DB atau token.
+* Tulis perubahan security-sensitive di PR dan jelaskan mitigasi.
+
+---
+
+## Changelog singkat
+
+* `1.0.0` — Initial stable release: CLI core, token encryption, file operations, interactive browser optional.
+
+---
+
+## FAQ cepat
+
+**Q: Apa beda token classic dan OAuth App?**
+A: Tocket memakai GitHub classic personal access token untuk kemudahan CLI. OAuth flow mungkin diperkenalkan di versi selanjutnya.
+
+**Q: Bisa digunakan untuk organisasi?**
+A: Ya, asalkan token punya permission/role sesuai untuk org repo (owner/collaborator atau org token dengan scope yang tepat).
+
+---
+
+## Lisensi
+
+Tocket dilisensikan di bawah MIT License. Lihat file `LICENSE` untuk detail.
+
+---
+
+Terima kasih sudah menggunakan Tocket — semoga mempermudah workflow GitHub kamu. Kalau mau aku tambahin contoh `dotfiles` config, alias bash/zsh, auto-completion, atau GitHub Actions integrasi untuk release otomatis, kabarin di PR atau issue.
