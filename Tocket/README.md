@@ -83,7 +83,7 @@ Tocket bukan sekadar pembungkus API. Ini adalah alat yang memiliki pendapat tent
 ```bash
 # Clone repositori
 git clone https://github.com/neveerlabs/Tocket.git
-cd Tocket
+cd Tocket/Tocket
 
 ## cek versi Python
 python3 --version
